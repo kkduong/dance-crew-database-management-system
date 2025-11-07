@@ -170,3 +170,5 @@ VALUES
 
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
+
+-- Citations: All work done by group 79
