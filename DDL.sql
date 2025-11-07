@@ -1,3 +1,13 @@
+/*
+Schema DDL by Jenna Rivera and Kaelee Duong
+Group 79 Project Step 2 draft
+CS340 Fall 2025
+*/
+
+
+SET FOREIGN_KEY_CHECKS = 0;
+SET AUTOCOMMIT = 0;
+
 --
 -- Table structure for table `Dancers`
 --
@@ -20,7 +30,7 @@ INSERT INTO Dancers (
 )
 VALUES
 ("Kaelee", "Duong", "kd@hello.com"),
-("Jenna", "Rivera", "kd@hello.com"),
+("Jenna", "Rivera", "jr@hello.com"),
 ("Cool", "Dude", "cd@hello.com");
 
 --
@@ -54,7 +64,7 @@ VALUES
 CREATE OR REPLACE TABLE Performances (
     performanceID int(11) NOT NULL UNIQUE AUTO_INCREMENT,
     name varchar(255) NOT NULL,
-    date varchar(255) NOT NULL,
+    date datetime NOT NULL,
     locationID int(11),
     PRIMARY KEY (performanceID),
     FOREIGN KEY (locationID) REFERENCES Locations(locationID)
@@ -157,3 +167,6 @@ VALUES
 (TRUE, "2", "2"),
 (FALSE, "3", "2"),
 (FALSE, "3", "3");
+
+SET FOREIGN_KEY_CHECKS = 1;
+COMMIT;
