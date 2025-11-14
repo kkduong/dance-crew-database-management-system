@@ -68,6 +68,7 @@ CREATE OR REPLACE TABLE Performances (
     locationID int(11),
     PRIMARY KEY (performanceID),
     FOREIGN KEY (locationID) REFERENCES Locations(locationID)
+        ON DELETE CASCADE
 );
 
 --
@@ -94,8 +95,10 @@ CREATE OR REPLACE TABLE Practices (
     performanceID int(11),
     locationID int(11),
     PRIMARY KEY (practiceID),
-    FOREIGN KEY (performanceID) REFERENCES Performances(performanceID),
+    FOREIGN KEY (performanceID) REFERENCES Performances(performanceID)
+        ON DELETE CASCADE,
     FOREIGN KEY (locationID) REFERENCES Locations(locationID)
+        ON DELETE CASCADE
 );
 
 --
@@ -122,12 +125,14 @@ CREATE OR REPLACE TABLE Performers (
     dancerID int(11),
     performanceID int(11),
     PRIMARY KEY (performerID),
-    FOREIGN KEY (dancerID) REFERENCES Dancers(dancerID),
+    FOREIGN KEY (dancerID) REFERENCES Dancers(dancerID)
+        ON DELETE CASCADE,
     FOREIGN KEY (performanceID) REFERENCES Performances(performanceID)
+        ON DELETE CASCADE
 );
 
 --
--- Data for table `Performances`
+-- Data for table `Performers`
 --
 
 INSERT INTO Performers (
@@ -149,8 +154,10 @@ CREATE OR REPLACE TABLE Dancer_Practices (
     dancerID int(11),
     practiceID int(11),
     PRIMARY KEY (dancerPracticeID),
-    FOREIGN KEY (dancerID) REFERENCES Dancers(dancerID),
+    FOREIGN KEY (dancerID) REFERENCES Dancers(dancerID)
+        ON DELETE CASCADE,
     FOREIGN KEY (practiceID) REFERENCES Practices(practiceID)
+        ON DELETE CASCADE
 );
 
 --
