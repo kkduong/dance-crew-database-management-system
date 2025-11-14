@@ -91,8 +91,8 @@ VALUES (@dateInput, @performanceIDInput, @locationIDInput);
 -- Read: all Practices info
 SELECT
     Practices.practiceID,
-    Practices.date,
-    Performances.name AS "Performance Name",
+    Practices.date AS "Date",
+    Performances.name AS "Performance",
     Locations.name AS "Location Name"
 FROM Practices
 LEFT JOIN Performances ON Practices.performanceID = Performances.performanceID
@@ -153,7 +153,7 @@ SELECT
     Dancer_Practices.dancerPracticeID,
     Dancers.firstName,
     Dancers.lastName,
-    Practices.date,
+    Practices.date AS "Practice Date",
     Locations.name AS "Location Name",
     Dancer_Practices.mandatory
 FROM Dancer_Practices
