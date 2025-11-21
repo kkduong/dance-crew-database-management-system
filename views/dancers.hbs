@@ -8,7 +8,10 @@
     <td>{{this.lastName}}</td>
     <td>{{this.email}}</td>
     <td>
-        <button type="submit" class="btn-delete">Delete</button>
+        <form action="/delete-dancer" method="POST" onsubmit="return confirm('Are you sure you want to delete this dancer?');">
+            <input type="hidden" name="dancerID" value="{{this.dancerID}}">
+            <button type="submit" class="btn-delete">Delete</button>
+        </form>
     </td>
   </tr>
   {{/each}}

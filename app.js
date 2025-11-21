@@ -1,7 +1,5 @@
-var path = require('path')
 var express = require('express')
 var exphbs = require('express-handlebars')
-var fs = require('fs')
 
 const app = express();
 const PORT = 9779; 
@@ -112,6 +110,31 @@ app.get('/performers', async (req, res) => {
   }
 });
 
+/* DELETE routes */
+
+// delete dancer
+app.post('/delete-dancer', async (req, res) => {
+    const dancerID = req.body.dancerID;
+
+    try {
+        await db.query("CALL DeleteDancer(?);", [dancerID]);
+        res.redirect('/dancers');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to delete dancer");
+    }
+});
+
+/* RESET sample data route */
+app.post('/reset-tables', async (req, res) => {
+    try {
+        await db.query("CALL ResetProd();");
+        res.redirect('/');   // go back to the home page
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to reset tables");
+    }
+});
 
 // start server
 app.listen(PORT, () => {

@@ -12,12 +12,12 @@ DELIMITER //
 CREATE PROCEDURE ResetProd()
 BEGIN
 
-    DROP TABLE IF EXISTS Dancers;
-    DROP TABLE IF EXISTS Locations;
-    DROP TABLE IF EXISTS Performances;
-    DROP TABLE IF EXISTS Practices;
-    DROP TABLE IF EXISTS Performers;
     DROP TABLE IF EXISTS Dancer_Practices;
+    DROP TABLE IF EXISTS Performers;
+    DROP TABLE IF EXISTS Practices;
+    DROP TABLE IF EXISTS Performances;
+    DROP TABLE IF EXISTS Locations;
+    DROP TABLE IF EXISTS Dancers;
 
     --
     -- Dancers table
@@ -165,7 +165,7 @@ BEGIN
     (FALSE, 3, 3);
 
 END //
-DELIMITER;
+DELIMITER ;
 
 ----------------------------------------------
 -- Delete operations
@@ -180,7 +180,7 @@ BEGIN
     WHERE dancerID = dancerIDInput;
 END //
 
-DELIMITER;
+DELIMITER ;
 
 -- delete location
 DELIMITER //
@@ -191,7 +191,7 @@ BEGIN
     WHERE locationID = locationIDInput;
 END //
 
-DELIMITER;
+DELIMITER ;
 
 -- delete performance
 DELIMITER //
@@ -202,7 +202,7 @@ BEGIN
     WHERE performanceID = performanceIDInput;
 END //
 
-DELIMITER;
+DELIMITER ;
 
 -- delete practice
 DELIMITER //
@@ -213,7 +213,7 @@ BEGIN
     WHERE practiceID = practiceIDInput;
 END //
 
-DELIMITER;
+DELIMITER ;
 
 -- delete performer
 DELIMITER //
@@ -224,7 +224,7 @@ BEGIN
     WHERE performerID = performerIDInput;
 END //
 
-DELIMITER;
+DELIMITER ;
 
 -- delete dancer_practice
 DELIMITER //
@@ -235,4 +235,4 @@ BEGIN
     WHERE dancerPracticeID = dancerPracticeIDInput;
 END //
 
-DELIMITER;
+DELIMITER ;
