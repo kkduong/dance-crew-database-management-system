@@ -2,7 +2,11 @@
 Reset Procedure and Delete Operation by Jenna Rivera and Kaelee Duong
 Group 79 Project Step 4 Draft
 CS340 Fall 2025
+Citation: Adopted from Canvas Modules (Week 7)
 */
+
+
+DROP PROCEDURE IF EXISTS ResetProd;
 
 ----------------------------------------------
 -- Reset Procedure: drop tables, recreate tables, and add data
@@ -171,6 +175,13 @@ DELIMITER ;
 -- Delete operations
 ----------------------------------------------
 
+DROP PROCEDURE IF EXISTS DeleteDancer;
+DROP PROCEDURE IF EXISTS DeleteLocation;
+DROP PROCEDURE IF EXISTS DeletePerformance;
+DROP PROCEDURE IF EXISTS DeletePractice;
+DROP PROCEDURE IF EXISTS DeletePerformer;
+DROP PROCEDURE IF EXISTS DeleteDancerPractice;
+
 -- delete dancer
 DELIMITER //
 
@@ -235,4 +246,209 @@ BEGIN
     WHERE dancerPracticeID = dancerPracticeIDInput;
 END //
 
+DELIMITER ;
+
+----------------------------------------------
+-- Create operations
+----------------------------------------------
+
+-- create Dancer
+DROP PROCEDURE IF EXISTS CreateDancer;
+DELIMITER //
+CREATE PROCEDURE CreateDancer(
+    IN p_firstName VARCHAR(255),
+    IN p_lastName  VARCHAR(255),
+    IN p_email     VARCHAR(255)
+)
+BEGIN
+    INSERT INTO Dancers (firstName, lastName, email)
+    VALUES (p_firstName, p_lastName, p_email);
+
+    SELECT LAST_INSERT_ID() AS new_id;
+END //
+DELIMITER ;
+
+-- create location
+DROP PROCEDURE IF EXISTS CreateLocation;
+DELIMITER //
+CREATE PROCEDURE CreateLocation(
+    IN p_name   VARCHAR(255),
+    IN p_address VARCHAR(255)
+)
+BEGIN
+    INSERT INTO Locations (name, address)
+    VALUES (p_name, p_address);
+
+    SELECT LAST_INSERT_ID() AS new_id;
+END //
+DELIMITER ;
+
+-- create performance
+DROP PROCEDURE IF EXISTS CreatePerformance;
+DELIMITER //
+CREATE PROCEDURE CreatePerformance(
+    IN p_name VARCHAR(255),
+    IN p_date DATETIME,
+    IN p_locationID INT
+)
+BEGIN
+    INSERT INTO Performances (name, date, locationID)
+    VALUES (p_name, p_date, p_locationID);
+
+    SELECT LAST_INSERT_ID() AS new_id;
+END //
+DELIMITER ;
+
+-- create practices
+DROP PROCEDURE IF EXISTS CreatePractice;
+DELIMITER //
+CREATE PROCEDURE CreatePractice(
+    IN p_date DATETIME,
+    IN p_performanceID INT,
+    IN p_locationID INT
+)
+BEGIN
+    INSERT INTO Practices (date, performanceID, locationID)
+    VALUES (p_date, p_performanceID, p_locationID);
+
+    SELECT LAST_INSERT_ID() AS new_id;
+END //
+DELIMITER ;
+
+-- create performer
+DROP PROCEDURE IF EXISTS CreatePerformer;
+DELIMITER //
+CREATE PROCEDURE CreatePerformer(
+    IN p_dancerID INT,
+    IN p_performanceID INT
+)
+BEGIN
+    INSERT INTO Performers (dancerID, performanceID)
+    VALUES (p_dancerID, p_performanceID);
+
+    SELECT LAST_INSERT_ID() AS new_id;
+END //
+DELIMITER ;
+
+
+-- create dancer practice
+DROP PROCEDURE IF EXISTS CreateDancerPractice;
+DELIMITER //
+CREATE PROCEDURE CreateDancerPractice(
+    IN p_mandatory BOOLEAN,
+    IN p_dancerID INT,
+    IN p_practiceID INT
+)
+BEGIN
+    INSERT INTO Dancer_Practices (mandatory, dancerID, practiceID)
+    VALUES (p_mandatory, p_dancerID, p_practiceID);
+
+    SELECT LAST_INSERT_ID() AS new_id;
+END //
+DELIMITER ;
+
+----------------------------------------------
+-- Update operations
+----------------------------------------------
+
+-- update Dancer
+DROP PROCEDURE IF EXISTS UpdateDancer
+DELIMITER //
+CREATE PROCEDURE UpdateDancer(
+    IN p_dancerID INT,
+    IN p_firstName VARCHAR(255),
+    IN p_lastName VARCHAR(255),
+    IN p_email VARCHAR(255)
+)
+BEGIN
+    UPDATE Dancers
+    SET firstName = p_firstName,
+        lastName  = p_lastName,
+        email     = p_email
+    WHERE dancerID = p_dancerID;
+END //
+DELIMITER ;
+
+-- update location
+DROP PROCEDURE IF EXISTS UpdateLocation;
+DELIMITER //
+CREATE PROCEDURE UpdateLocation(
+    IN p_locationID INT,
+    IN p_name VARCHAR(255),
+    IN p_address VARCHAR(255)
+)
+BEGIN
+    UPDATE Locations
+    SET name = p_name,
+        address = p_address
+    WHERE locationID = p_locationID;
+END //
+DELIMITER ;
+
+-- update performance
+DROP PROCEDURE IF EXISTS UpdatePerformance;
+DELIMITER //
+CREATE PROCEDURE UpdatePerformance(
+    IN p_performanceID INT,
+    IN p_name VARCHAR(255),
+    IN p_date DATETIME,
+    IN p_locationID INT
+)
+BEGIN
+    UPDATE Performances
+    SET name = p_name,
+        date = p_date,
+        locationID = p_locationID
+    WHERE performanceID = p_performanceID;
+END //
+DELIMITER ;
+
+-- update practice
+DROP PROCEDURE IF EXISTS UpdatePractice;
+DELIMITER //
+CREATE PROCEDURE UpdatePractice(
+    IN p_practiceID INT,
+    IN p_date DATETIME,
+    IN p_performanceID INT,
+    IN p_locationID INT
+)
+BEGIN
+    UPDATE Practices
+    SET date = p_date,
+        performanceID = p_performanceID,
+        locationID = p_locationID
+    WHERE practiceID = p_practiceID;
+END //
+DELIMITER ;
+
+-- update performer
+DROP PROCEDURE IF EXISTS UpdatePerformer;
+CREATE PROCEDURE UpdatePerformer(
+    IN p_performerID INT,
+    IN p_dancerID INT,
+    IN p_performanceID INT
+)
+BEGIN
+    UPDATE Performers
+    SET dancerID = p_dancerID,
+        performanceID = p_performanceID
+    WHERE performerID = p_performerID;
+END //
+DELIMITER ;
+
+-- update dancer practice
+DROP PROCEDURE IF EXISTS UpdateDancerPractice;
+CREATE PROCEDURE UpdateDancerPractice(
+    IN p_dancerPracticeID INT,
+    IN p_mandatory BOOLEAN,
+    IN p_dancerID INT,
+    IN p_practiceID INT
+)
+BEGIN
+    UPDATE Dancer_Practices
+    SET mandatory = p_mandatory,
+        dancerID = p_dancerID,
+        practiceID = p_practiceID
+    WHERE dancerPracticeID = p_dancerPracticeID;
+END //
 DELIMITER ;
