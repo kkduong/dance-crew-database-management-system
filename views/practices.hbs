@@ -1,5 +1,11 @@
 <h2>Practices</h2>
 
+{{#if createdID}}
+  <div class="success-message">
+    Practice with ID {{createdID}} was successfully created!
+  </div>
+{{/if}}
+
 <table class="styled-table">
   <tr><th>Date</th><th>Location</th><th>Performance</th><th>Actions</th></tr>
   {{#each practices}}

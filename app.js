@@ -11,7 +11,7 @@ const db = require('./db-connector');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// set up handlebars
+// set up handlebars    
 app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
 app.set('view engine', 'hbs');
 
@@ -26,8 +26,13 @@ app.get('/', async (req, res) => {
 // ===== dancers =====
 app.get('/dancers', async (req, res) => {
   try {
-    const [results] = await db.query("SELECT * FROM Dancers;");
-    res.render('dancers', { title: 'Dancers', dancers: results });
+    const [dancers] = await db.query("SELECT * FROM Dancers;");
+
+    const createdID = req.query.created || null;
+
+    const updatedID = req.query.updated || null;
+
+    res.render('dancers', { title: 'Dancers', dancers, createdID, updatedID });
   } catch (err) {
     console.error(err);
     res.status(500).send("Database query error");
@@ -41,7 +46,9 @@ app.get('/performances', async (req, res) => {
 
     const [locations] = await db.query("SELECT locationID, name FROM Locations;");
 
-    res.render('performances', { title: 'Performances', performances, locations});
+    const createdID = req.query.created || null;
+
+    res.render('performances', { title: 'Performances', performances, locations, createdID});
   } catch (err) {
     console.error(err);
     res.status(500).send("Database query error");
@@ -57,8 +64,10 @@ app.get('/practices', async (req, res) => {
     const [performances] = await db.query("SELECT performanceID, name FROM Performances;");
 
     const [locations] = await db.query("SELECT locationID, name FROM Locations;");
+
+    const createdID = req.query.created || null;
     
-    res.render('practices', { title: 'Practices', practices, performances, locations });
+    res.render('practices', { title: 'Practices', practices, performances, locations, createdID });
 
   } catch (err) {
     console.error(err);
@@ -69,8 +78,9 @@ app.get('/practices', async (req, res) => {
 // ===== locations =====
 app.get('/locations', async (req, res) => {
   try {
-    const [results] = await db.query("SELECT * FROM Locations;");
-    res.render('locations', { title: 'Locations', locations: results });
+    const [locations] = await db.query("SELECT * FROM Locations;");
+    const createdID = req.query.created || null;
+    res.render('locations', { title: 'Locations', locations, createdID});
   } catch (err) {
     console.error(err);
     res.status(500).send("Database query error");
@@ -86,7 +96,9 @@ app.get('/dancerpractices', async (req, res) => {
 
     const [practices] = await db.query("SELECT Practices.practiceID, Practices.date, Locations.name AS locationName FROM Practices JOIN Locations ON Practices.locationID = Locations.locationID;");
 
-    res.render('dancerpractices', { title: 'Dancer Practices', dancerpractices, dancers, practices});
+    const createdID = req.query.created || null;
+    
+    res.render('dancerpractices', { title: 'Dancer Practices', dancerpractices, dancers, practices, createdID });
   } catch (err) {
     console.error(err);
     res.status(500).send("Database query error");
@@ -102,7 +114,9 @@ app.get('/performers', async (req, res) => {
 
     const [performances] = await db.query("SELECT performanceID, name FROM Performances;");
 
-    res.render('performers', { title: 'Performers', performers, dancers, performances});
+    const createdID = req.query.created || null;
+
+    res.render('performers', { title: 'Performers', performers, dancers, performances, createdID });
 
   } catch (err) {
     console.error(err);
@@ -122,6 +136,173 @@ app.post('/delete-dancer', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Failed to delete dancer");
+    }
+});
+
+// delete performance
+app.post('/delete-performance', async (req, res) => {
+    const performanceID = req.body.performanceID;
+
+    try {
+        await db.query("CALL DeletePerformance(?);", [performanceID]);
+        res.redirect('/performances');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to delete performance");
+    }
+});
+
+// delete practice
+app.post('/delete-practice', async (req, res) => {
+    const practiceID = req.body.practiceID;
+
+    try {
+        await db.query("CALL DeletePractice(?);", [practiceID]);
+        res.redirect('/practices');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to delete practice");
+    }
+});
+
+// delete location
+app.post('/delete-location', async (req, res) => {
+    const locationID = req.body.locationID;
+
+    try {
+        await db.query("CALL DeleteLocation(?);", [locationID]);
+        res.redirect('/locations');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to delete location");
+    }
+});
+
+// delete dancer practice
+app.post('/delete-dancer-practice', async (req, res) => {
+    const dancerPracticeID = req.body.dancerPracticeID;
+
+    try {
+        await db.query("CALL DeleteDancerPractice(?);", [dancerPracticeID]);
+        res.redirect('/dancerpractices');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to delete dancer practice");
+    }
+});
+
+// delete performer
+app.post('/delete-performer', async (req, res) => {
+    const performerID = req.body.performerID;
+
+    try {
+        await db.query("CALL DeletePerformer(?);", [performerID]);
+        res.redirect('/performers');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to delete performer");
+    }
+});
+
+/*CREATE routes */
+
+// create dancer
+app.post('/add-dancer', async (req, res) => {
+    const { firstName, lastName, email } = req.body;
+
+    try {
+        const [rows] = await db.query("CALL CreateDancer(?, ?, ?);", [firstName, lastName, email]);
+        const new_id = rows[0][0].new_id;
+        res.redirect(`/dancers?created=${new_id}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to create dancer");
+    }
+});
+
+// create performance
+app.post('/add-performance', async (req, res) => {
+    const { name, date, locationID } = req.body;
+
+    try {
+        const [rows] = await db.query("CALL CreatePerformance(?, ?, ?);", [name, date, locationID]);
+        const new_id = rows[0][0].new_id;
+        res.redirect(`/performances?created=${new_id}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to create performance");
+    }
+});
+
+// create practice
+app.post('/add-practice', async (req, res) => {
+    const { date, locationID, performanceID } = req.body;
+
+    try {
+        const [rows] = await db.query("CALL CreatePractice(?, ?, ?);", [date, locationID, performanceID]);
+        const new_id = rows[0][0].new_id;
+        res.redirect(`/practices?created=${new_id}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to create practice");
+    }
+});
+
+// create location
+app.post('/add-location', async (req, res) => {
+    const { name, address } = req.body;
+
+    try {
+        const [rows] = await db.query("CALL CreateLocation(?, ?);", [name, address]);
+        const new_id = rows[0][0].new_id;
+        res.redirect(`/locations?created=${new_id}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to create location");
+    }
+});
+
+// create dancer practice
+app.post('/add-dancer-practice', async (req, res) => {
+    const { dancerID, practiceID, mandatory } = req.body;
+
+    try {
+        const [rows] = await db.query("CALL CreateDancerPractice(?, ?, ?);", [dancerID, practiceID, mandatory]);
+        const new_id = rows[0][0].new_id;
+        res.redirect(`/dancerpractices?created=${new_id}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to create dancer practice");
+    }
+});
+
+// create performer
+app.post('/add-performer', async (req, res) => {
+    const { dancerID, performanceID } = req.body;
+
+    try {
+        const [rows] = await db.query("CALL CreatePerformer(?, ?);", [dancerID, performanceID]);
+        const new_id = rows[0][0].new_id;
+        res.redirect(`/performers?created=${new_id}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to create performer");
+    }
+});
+
+
+/*UPDATE routes */
+
+//update dancer 
+app.post('/edit-dancer', async (req, res) => {
+    const { dancerID, newFirstName, newLastName, newEmail } = req.body;
+
+    try {
+        await db.query("CALL UpdateDancer(?, ?, ?, ?);", [dancerID, newFirstName, newLastName, newEmail]);
+        res.redirect(`/dancers?updated=${dancerID}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to update dancer");
     }
 });
 

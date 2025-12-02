@@ -1,5 +1,11 @@
 <h2>Dancer's Practices</h2>
 
+{{#if createdID}}
+  <div class="success-message">
+    Dancer's Practice with ID {{createdID}} was successfully created!
+  </div>
+{{/if}}
+
 <table class="styled-table">
   <tr><th>First Name</th><th>Last Name</th><th>Assigned Practice Date</th><th>Location</th><th>Mandatory?</th><th>Actions</th></tr>
   {{#each dancerpractices}}

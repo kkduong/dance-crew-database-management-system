@@ -1,5 +1,17 @@
 <h2>Dancers</h2>
 
+{{#if createdID}}
+  <div class="success-message">
+    Dancer with ID {{createdID}} was successfully created!
+  </div>
+{{/if}}
+
+{{#if updatedID}}
+  <div class="success-message">
+    Dancer with ID {{updatedID}} was successfully updated!
+  </div>
+{{/if}}
+
 <table class = "styled-table">
   <tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Actions</th></tr>
   {{#each dancers}}
@@ -41,11 +53,11 @@
   {{/each}}
 </select>
 <label for="newFirstName">New First Name:</label>
-<input type="text" id="newFirstName" name="newFirstName">
+<input type="text" id="newFirstName" name="newFirstName" required>
 <label for="newLastName">New Last Name:</label>
-<input type="text" id="newLastName" name="newLastName">
+<input type="text" id="newLastName" name="newLastName" required>
 <label for="newEmail">New Email:</label>
-<input type="email" id="newEmail" name="newEmail">
+<input type="email" id="newEmail" name="newEmail" required>
 <button id="editDancerBtn">Edit Dancer</button>
 </form>
 

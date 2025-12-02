@@ -1,5 +1,11 @@
 <h2>Performers</h2>
 
+{{#if createdID}}
+  <div class="success-message">
+    Performer with ID {{createdID}} was successfully created!
+  </div>
+{{/if}}
+
 <table class="styled-table">
   <tr><th>First Name</th><th>Last Name</th><th>Performance</th><th>Actions</th></tr>
   {{#each performers}}

@@ -1,5 +1,11 @@
 <h2>Locations</h2>
 
+{{#if createdID}}
+  <div class="success-message">
+    Location with ID {{createdID}} was successfully created!
+  </div>
+{{/if}}
+
 <table class="styled-table">
   <tr><th>Name</th><th>Address</th><th>Actions</th></tr>
   {{#each locations}}

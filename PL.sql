@@ -352,8 +352,10 @@ DELIMITER ;
 ----------------------------------------------
 
 -- update Dancer
-DROP PROCEDURE IF EXISTS UpdateDancer
+DROP PROCEDURE IF EXISTS UpdateDancer;
+
 DELIMITER //
+
 CREATE PROCEDURE UpdateDancer(
     IN p_dancerID INT,
     IN p_firstName VARCHAR(255),
@@ -423,6 +425,7 @@ DELIMITER ;
 
 -- update performer
 DROP PROCEDURE IF EXISTS UpdatePerformer;
+DELIMITER //
 CREATE PROCEDURE UpdatePerformer(
     IN p_performerID INT,
     IN p_dancerID INT,
@@ -438,6 +441,7 @@ DELIMITER ;
 
 -- update dancer practice
 DROP PROCEDURE IF EXISTS UpdateDancerPractice;
+DELIMITER //
 CREATE PROCEDURE UpdateDancerPractice(
     IN p_dancerPracticeID INT,
     IN p_mandatory BOOLEAN,

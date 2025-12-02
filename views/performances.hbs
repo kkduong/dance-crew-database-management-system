@@ -1,5 +1,11 @@
 <h2>Performances</h2>
 
+{{#if createdID}}
+  <div class="success-message">
+    Performance with ID {{createdID}} was successfully created!
+  </div>
+{{/if}}
+
 <table class="styled-table">
   <tr><th>Name</th><th>Date</th><th>Location</th><th>Actions</th></tr>
   {{#each performances}}
@@ -23,7 +29,7 @@
     <label for="date">Date:</label>
     <input type="date" id="date" name="date" required>
     <label for="locationID">Location:</label>
-    <select id="location" name="location" required>
+    <select id="locationID" name="locationID" required>
       {{#each locations}}
         <option value="{{this.locationID}}">
           {{this.name}}
