@@ -2,6 +2,7 @@
 Schema DDL by Jenna Rivera and Kaelee Duong
 Group 79 Project Step 2 draft
 CS340 Fall 2025
+* Citations: Adopted from sp_moviedb.sql from CS340 Canvas files *
 */
 
 DROP PROCEDURE IF EXISTS sp_load_eclispedb;
@@ -183,4 +184,3 @@ BEGIN
     COMMIT;
 END //
 DELIMITER ;
--- Citations: All work done by group 79
