@@ -1,11 +1,31 @@
+{{!--
+  ECLIPSE Crew Management System
+  Group 79 - Jenna Rivera and Kaelee Duong
+  Practices Handlebars Template for CS340 Final Project
+
+  Citations:
+  - Handlebars.js documentation: https://handlebarsjs.com/guide/
+  - Exploration: Web Application Technology example code was used as a reference for structuring Handlebars templates.
+  - All other code was written by Group 79 members.
+ --}}
+
 <h2>Practices</h2>
 
+{{! success message upon creating a new practice !}}
 {{#if createdID}}
   <div class="success-message">
     Practice with ID {{createdID}} was successfully created!
   </div>
 {{/if}}
 
+{{! success message upon updating an existing practice !}}
+{{#if updatedID}}
+  <div class="success-message">
+    Practice with ID {{updatedID}} was successfully updated!
+  </div>
+{{/if}}
+
+{{! table displaying data from practices !}}
 <table class="styled-table">
   <tr><th>Date</th><th>Location</th><th>Performance</th><th>Actions</th></tr>
   {{#each practices}}
@@ -23,6 +43,7 @@
   {{/each}}
 </table>
 
+{{! add new practice !}}
 <div class="form-section">
 
 <h3>Add New Practice</h3>
@@ -48,6 +69,7 @@
 <button id="addPracticeBtn">Add Practice</button>
 </form>
 
+{{! edit existing practice !}}
 <h3>Edit a Practice</h3>
 <form id="editPracticeForm" action="/edit-practice" method="POST">
   <label for="practiceID">Select Practice to Edit:</label>

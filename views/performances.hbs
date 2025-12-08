@@ -1,11 +1,31 @@
+{{!--
+  ECLIPSE Crew Management System
+  Group 79 - Jenna Rivera and Kaelee Duong
+  Performances Handlebars Template for CS340 Final Project
+
+  Citations:
+  - Handlebars.js documentation: https://handlebarsjs.com/guide/
+  - Exploration: Web Application Technology example code was used as a reference for structuring Handlebars templates.
+  - All other code was written by Group 79 members.
+ --}}
+
 <h2>Performances</h2>
 
+{{! success message upon creating a new performance !}}
 {{#if createdID}}
   <div class="success-message">
     Performance with ID {{createdID}} was successfully created!
   </div>
 {{/if}}
 
+{{! success message upon updating an existing performance !}}
+{{#if updatedID}}
+  <div class="success-message">
+    Performance with ID {{updatedID}} was successfully updated!
+  </div>
+{{/if}}
+
+{{! table displaying data from performances !}}
 <table class="styled-table">
   <tr><th>Name</th><th>Date</th><th>Location</th><th>Actions</th></tr>
   {{#each performances}}
@@ -23,7 +43,7 @@
   {{/each}}
 </table>
 
-
+{{! add new performance !}}
 <div class="form-section">
   <h3>Add New Performance</h3>
   <form id="addPerformanceForm" action="/add-performance" method="POST">
@@ -42,6 +62,7 @@
   <button id="addPerformanceBtn">Add Performance</button>
   </form>
 
+  {{! edit existing performance !}}
   <h3>Edit a Performance</h3>
   <form id="editPerformanceForm" action="/edit-performance" method="POST">
   <label for="performanceID">Select Performance to Edit:</label>

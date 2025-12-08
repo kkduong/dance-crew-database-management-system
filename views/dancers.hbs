@@ -1,17 +1,32 @@
+{{!--
+  ECLIPSE Crew Management System
+  Group 79 - Jenna Rivera and Kaelee Duong
+  Dancers Handlebars Template for CS340 Final Project
+
+  Citations:
+  - Handlebars.js documentation: https://handlebarsjs.com/guide/
+  - Exploration: Web Application Technology example code was used as a reference for structuring Handlebars templates.
+  - All other code was written by Group 79 members.
+ --}}
+
 <h2>Dancers</h2>
 
+{{! success message upon creating a new dancer !}}
 {{#if createdID}}
   <div class="success-message">
     Dancer with ID {{createdID}} was successfully created!
   </div>
 {{/if}}
 
+{{! success message upon updating an existing dancer !}}
 {{#if updatedID}}
   <div class="success-message">
     Dancer with ID {{updatedID}} was successfully updated!
   </div>
 {{/if}}
 
+
+{{! table displaying data from dancers !}}
 <table class = "styled-table">
   <tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Actions</th></tr>
   {{#each dancers}}
@@ -29,6 +44,7 @@
   {{/each}}
 </table>
 
+{{! add new dancer !}}
 <div class="form-section">
 
 <h3>Add New Dancer</h3>
@@ -42,6 +58,7 @@
 <button id="addDancerBtn">Add Dancer</button>
 </form>
 
+{{! edit existing dancer !}}
 <h3>Edit a Dancer</h3>
 <form id="editDancerForm" action="/edit-dancer" method="POST">
 <label for="dancerID">Select Dancer to Edit:</label>

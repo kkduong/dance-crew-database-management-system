@@ -1,3 +1,10 @@
+/*
+ECLIPSE Crew Management System
+Group 79 - Jenna Rivera and Kaelee Duong
+Application file for CS340 Final Project
+*/
+
+
 var express = require('express')
 var exphbs = require('express-handlebars')
 
@@ -16,14 +23,14 @@ app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
 app.set('view engine', 'hbs');
 
 
-// routes
-
-// ===== home =====
+// home route
 app.get('/', async (req, res) => {
   res.render('home', { title: 'ECLIPSE Crew Management System' });
 });
 
-// ===== dancers =====
+/* SELECT routes */
+
+// dancers
 app.get('/dancers', async (req, res) => {
   try {
     const [dancers] = await db.query("SELECT * FROM Dancers;");
@@ -39,7 +46,7 @@ app.get('/dancers', async (req, res) => {
   }
 });
 
-// ===== performances =====
+// performances
 app.get('/performances', async (req, res) => {
   try {
     const [performances] = await db.query("SELECT Performances.performanceID, Performances.name, DATE(Performances.date) AS date, Locations.name AS locationName FROM Performances JOIN Locations ON Performances.locationID = Locations.locationID;");
@@ -48,7 +55,10 @@ app.get('/performances', async (req, res) => {
 
     const createdID = req.query.created || null;
 
-    res.render('performances', { title: 'Performances', performances, locations, createdID});
+    const updatedID = req.query.updated || null;
+
+
+    res.render('performances', { title: 'Performances', performances, locations, createdID, updatedID});
   } catch (err) {
     console.error(err);
     res.status(500).send("Database query error");
@@ -56,7 +66,7 @@ app.get('/performances', async (req, res) => {
 });
 
 
-// ===== practices =====
+// practices
 app.get('/practices', async (req, res) => {
     try {
     const [practices] = await db.query("SELECT Practices.practiceID, DATE(Practices.date) AS date, Locations.name AS locationName, Performances.name AS performanceName FROM Practices JOIN Locations ON Practices.locationID = Locations.locationID JOIN Performances ON Practices.performanceID = Performances.performanceID;");
@@ -66,8 +76,10 @@ app.get('/practices', async (req, res) => {
     const [locations] = await db.query("SELECT locationID, name FROM Locations;");
 
     const createdID = req.query.created || null;
+
+    const updatedID = req.query.updated || null;
     
-    res.render('practices', { title: 'Practices', practices, performances, locations, createdID });
+    res.render('practices', { title: 'Practices', practices, performances, locations, createdID, updatedID });
 
   } catch (err) {
     console.error(err);
@@ -75,19 +87,23 @@ app.get('/practices', async (req, res) => {
   }
 });
 
-// ===== locations =====
+// locations
 app.get('/locations', async (req, res) => {
   try {
     const [locations] = await db.query("SELECT * FROM Locations;");
+
     const createdID = req.query.created || null;
-    res.render('locations', { title: 'Locations', locations, createdID});
+
+    const updatedID = req.query.updated || null;
+
+    res.render('locations', { title: 'Locations', locations, createdID, updatedID});
   } catch (err) {
     console.error(err);
     res.status(500).send("Database query error");
   }
 });
 
-// ===== dancer_practices =====
+// dancer practices
 app.get('/dancerpractices', async (req, res) => {
   try {
     const [dancerpractices] = await db.query("SELECT Dancer_Practices.dancerPracticeID, Dancer_Practices.mandatory, Dancers.firstName, Dancers.lastName, Practices.date AS practiceDate, Locations.name AS locationName FROM Dancer_Practices JOIN Dancers ON Dancer_Practices.dancerID = Dancers.dancerID JOIN Practices ON Dancer_Practices.practiceID = Practices.practiceID JOIN Locations ON Practices.locationID = Locations.locationID;");
@@ -97,15 +113,17 @@ app.get('/dancerpractices', async (req, res) => {
     const [practices] = await db.query("SELECT Practices.practiceID, Practices.date, Locations.name AS locationName FROM Practices JOIN Locations ON Practices.locationID = Locations.locationID;");
 
     const createdID = req.query.created || null;
+
+    const updatedID = req.query.updated || null;
     
-    res.render('dancerpractices', { title: 'Dancer Practices', dancerpractices, dancers, practices, createdID });
+    res.render('dancerpractices', { title: 'Dancer Practices', dancerpractices, dancers, practices, createdID, updatedID });
   } catch (err) {
     console.error(err);
     res.status(500).send("Database query error");
   }
 });
 
-// ===== performers =====
+// performers
 app.get('/performers', async (req, res) => {
   try {
     const [performers] = await db.query("SELECT Performers.performerID, Dancers.firstName, Dancers.lastName, Performances.name AS performanceName FROM Performers JOIN Dancers ON Performers.dancerID = Dancers.dancerID JOIN Performances ON Performers.performanceID = Performances.performanceID;");
@@ -116,7 +134,9 @@ app.get('/performers', async (req, res) => {
 
     const createdID = req.query.created || null;
 
-    res.render('performers', { title: 'Performers', performers, dancers, performances, createdID });
+    const updatedID = req.query.updated || null;
+
+    res.render('performers', { title: 'Performers', performers, dancers, performances, createdID, updatedID });
 
   } catch (err) {
     console.error(err);
@@ -306,6 +326,7 @@ app.post('/edit-dancer', async (req, res) => {
     }
 });
 
+// update performance
 app.post('/edit-performance', async (req, res) => {
     const { performanceID, newName, newDate, newLocation } = req.body;
 
@@ -318,6 +339,7 @@ app.post('/edit-performance', async (req, res) => {
     }
 });
 
+// update practice
 app.post('/edit-practice', async (req, res) => {
     const { practiceID, newDate, newLocation, newPerformance } = req.body;
 
@@ -330,6 +352,7 @@ app.post('/edit-practice', async (req, res) => {
     }
 });
 
+// update location
 app.post('/edit-location', async (req, res) => {
     const { locationID, newName, newAddress } = req.body;
 
@@ -342,6 +365,7 @@ app.post('/edit-location', async (req, res) => {
     }
 }); 
 
+// update dancer practice
 app.post('/edit-dancer-practice', async (req, res) => {
     const { dancerPracticeID, newDancer, newPractice, newMandatory } = req.body;
 
@@ -354,6 +378,7 @@ app.post('/edit-dancer-practice', async (req, res) => {
     }
 });
 
+// update performer
 app.post('/edit-performer', async (req, res) => {
     const { performerID, newDancerID, newPerformanceID } = req.body;
 
@@ -381,3 +406,6 @@ app.post('/reset-tables', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running at http://classwork.engr.oregonstate.edu:${PORT}`);
 });
+
+
+// Citations: All work done by group 79

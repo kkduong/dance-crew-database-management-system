@@ -1,11 +1,31 @@
+{{!--
+  ECLIPSE Crew Management System
+  Group 79 - Jenna Rivera and Kaelee Duong
+  Dancer Practices Handlebars Template for CS340 Final Project
+
+  Citations:
+  - Handlebars.js documentation: https://handlebarsjs.com/guide/
+  - Exploration: Web Application Technology example code was used as a reference for structuring Handlebars templates.
+  - All other code was written by Group 79 members.
+ --}}
+
 <h2>Dancer's Practices</h2>
 
+{{! success message upon adding a new dancer practice !}}
 {{#if createdID}}
   <div class="success-message">
     Dancer's Practice with ID {{createdID}} was successfully created!
   </div>
 {{/if}}
 
+{{! success message upon updating an existing dancer practice !}}
+{{#if updatedID}}
+  <div class="success-message">
+    Dancer's Practice with ID {{updatedID}} was successfully updated!
+  </div>
+{{/if}}
+
+{{! table displaying data from dancerpractices !}}
 <table class="styled-table">
   <tr><th>First Name</th><th>Last Name</th><th>Assigned Practice Date</th><th>Location</th><th>Mandatory?</th><th>Actions</th></tr>
   {{#each dancerpractices}}
@@ -31,6 +51,8 @@
   {{/each}}
 </table>
 
+
+{{! add new dancer practice !}}
 <div class="form-section">
 
 <h3>Add New Dancer's Practice</h3>
@@ -63,6 +85,8 @@
   <button type="submit" id="addDancerPracticeBtn">Add Dancer's Practice</button>
 </form>
 
+
+{{! edit an existing dancer practice !}}
 <h3>Edit a Dancer's Practice</h3>
 <form id="editDancerPracticeForm" action="/edit-dancer-practice" method="POST">
   <label for="dancerPracticeID">Select Dancer's Practice to Edit:</label>

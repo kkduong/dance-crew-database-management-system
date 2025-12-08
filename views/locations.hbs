@@ -1,11 +1,31 @@
+{{!--
+  ECLIPSE Crew Management System
+  Group 79 - Jenna Rivera and Kaelee Duong
+  Locations Handlebars Template for CS340 Final Project
+
+  Citations:
+  - Handlebars.js documentation: https://handlebarsjs.com/guide/
+  - Exploration: Web Application Technology example code was used as a reference for structuring Handlebars templates.
+  - All other code was written by Group 79 members.
+ --}}
+
 <h2>Locations</h2>
 
+{{! success message upon creating a new location !}}
 {{#if createdID}}
   <div class="success-message">
     Location with ID {{createdID}} was successfully created!
   </div>
 {{/if}}
 
+{{! success message upon updating an existing location !}}
+{{#if updatedID}}
+  <div class="success-message">
+    Location with ID {{updatedID}} was successfully updated!
+  </div>
+{{/if}}
+
+{{! table displaying data from locations !}}
 <table class="styled-table">
   <tr><th>Name</th><th>Address</th><th>Actions</th></tr>
   {{#each locations}}
@@ -22,6 +42,8 @@
   {{/each}}
 </table>
 
+
+{{! add new location !}}
 <div class="form-section">
 
 <h3>Add New Location</h3>
@@ -33,6 +55,7 @@
 <button id="addLocationBtn">Add Location</button>
 </form>
 
+{{! edit existing location !}}
 <h3>Edit a Location</h3>
 <form id="editLocationForm" action="/edit-location" method="POST">
 <label for="locationID">Select Location to Edit:</label>
