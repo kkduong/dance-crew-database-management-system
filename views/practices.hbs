@@ -14,7 +14,10 @@
     <td>{{this.locationName}}</td>
     <td>{{this.performanceName}}</td>
     <td>
-        <button type="submit" class="btn-delete">Delete</button>
+         <form action="/delete-practice" method="POST" onsubmit="return confirm('Are you sure you want to delete this practice?');">
+            <input type="hidden" name="practiceID" value="{{this.practiceID}}">
+            <button type="submit" class="btn-delete">Delete</button>
+        </form>
     </td>
   </tr>
   {{/each}}
@@ -57,10 +60,10 @@
   </select>
 
   <label for="newDate">New Date:</label>
-  <input type="date" id="newDate" name="newDate">
+  <input type="date" id="newDate" name="newDate" required>
 
   <label for="newLocation">New Location:</label>
-  <select id="newLocation" name="newLocation">
+  <select id="newLocation" name="newLocation" required>
     {{#each locations}}
       <option value="{{this.locationID}}">
         {{this.name}}

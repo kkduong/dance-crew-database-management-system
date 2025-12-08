@@ -14,7 +14,10 @@
     <td>{{this.lastName}}</td>
     <td>{{this.performanceName}}</td>
     <td>
-        <button type="submit" class="btn-delete">Delete</button>
+         <form action="/delete-performer" method="POST" onsubmit="return confirm('Are you sure you want to delete this performer?');">
+            <input type="hidden" name="performerID" value="{{this.performerID}}">
+            <button type="submit" class="btn-delete">Delete</button>
+        </form>
     </td>
   </tr>
   {{/each}}
@@ -57,7 +60,7 @@
   </select> 
 
   <label for="newDancerID">Select New Dancer:</label>
-  <select id="newDancerID" name="newDancerID">
+  <select id="newDancerID" name="newDancerID" required>
     {{#each dancers}}
       <option value="{{this.dancerID}}">
         {{this.firstName}} {{this.lastName}}
@@ -66,7 +69,7 @@
   </select>
 
   <label for="newPerformanceID">Select New Performance:</label>
-  <select id="newPerformanceID" name="newPerformanceID">
+  <select id="newPerformanceID" name="newPerformanceID" required>
     {{#each performances}}
       <option value="{{this.performanceID}}">
         {{this.name}}

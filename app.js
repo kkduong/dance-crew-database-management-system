@@ -42,7 +42,7 @@ app.get('/dancers', async (req, res) => {
 // ===== performances =====
 app.get('/performances', async (req, res) => {
   try {
-    const [performances] = await db.query("SELECT Performances.performanceID, Performances.name, Performances.date, Locations.name AS locationName FROM Performances JOIN Locations ON Performances.locationID = Locations.locationID;");
+    const [performances] = await db.query("SELECT Performances.performanceID, Performances.name, DATE(Performances.date) AS date, Locations.name AS locationName FROM Performances JOIN Locations ON Performances.locationID = Locations.locationID;");
 
     const [locations] = await db.query("SELECT locationID, name FROM Locations;");
 
@@ -59,7 +59,7 @@ app.get('/performances', async (req, res) => {
 // ===== practices =====
 app.get('/practices', async (req, res) => {
     try {
-    const [practices] = await db.query("SELECT Practices.practiceID, Practices.date, Locations.name AS locationName, Performances.name AS performanceName FROM Practices JOIN Locations ON Practices.locationID = Locations.locationID JOIN Performances ON Practices.performanceID = Performances.performanceID;");
+    const [practices] = await db.query("SELECT Practices.practiceID, DATE(Practices.date) AS date, Locations.name AS locationName, Performances.name AS performanceName FROM Practices JOIN Locations ON Practices.locationID = Locations.locationID JOIN Performances ON Practices.performanceID = Performances.performanceID;");
     
     const [performances] = await db.query("SELECT performanceID, name FROM Performances;");
 
@@ -267,7 +267,7 @@ app.post('/add-dancer-practice', async (req, res) => {
     const { dancerID, practiceID, mandatory } = req.body;
 
     try {
-        const [rows] = await db.query("CALL CreateDancerPractice(?, ?, ?);", [dancerID, practiceID, mandatory]);
+        const [rows] = await db.query("CALL CreateDancerPractice(?, ?, ?);", [mandatory, dancerID, practiceID]);
         const new_id = rows[0][0].new_id;
         res.redirect(`/dancerpractices?created=${new_id}`);
     } catch (err) {
@@ -303,6 +303,66 @@ app.post('/edit-dancer', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Failed to update dancer");
+    }
+});
+
+app.post('/edit-performance', async (req, res) => {
+    const { performanceID, newName, newDate, newLocation } = req.body;
+
+    try {
+        await db.query("CALL UpdatePerformance(?, ?, ?, ?);", [performanceID, newName, newDate, newLocation]);
+        res.redirect(`/performances?updated=${performanceID}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to update performance");
+    }
+});
+
+app.post('/edit-practice', async (req, res) => {
+    const { practiceID, newDate, newLocation, newPerformance } = req.body;
+
+    try {
+        await db.query("CALL UpdatePractice(?, ?, ?, ?);", [practiceID, newDate, newLocation, newPerformance]);
+        res.redirect(`/practices?updated=${practiceID}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to update practice");
+    }
+});
+
+app.post('/edit-location', async (req, res) => {
+    const { locationID, newName, newAddress } = req.body;
+
+    try {
+        await db.query("CALL UpdateLocation(?, ?, ?);", [locationID, newName, newAddress]);
+        res.redirect(`/locations?updated=${locationID}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to update location");
+    }
+}); 
+
+app.post('/edit-dancer-practice', async (req, res) => {
+    const { dancerPracticeID, newDancer, newPractice, newMandatory } = req.body;
+
+    try {
+        await db.query("CALL UpdateDancerPractice(?, ?, ?, ?);", [dancerPracticeID, newMandatory, newDancer, newPractice]);
+        res.redirect(`/dancerpractices?updated=${dancerPracticeID}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to update dancer practice");
+    }
+});
+
+app.post('/edit-performer', async (req, res) => {
+    const { performerID, newDancerID, newPerformanceID } = req.body;
+
+    try {
+        await db.query("CALL UpdatePerformer(?, ?, ?);", [performerID, newDancerID, newPerformanceID]);
+        res.redirect(`/performers?updated=${performerID}`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to update performer");
     }
 });
 
