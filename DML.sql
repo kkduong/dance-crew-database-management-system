@@ -2,6 +2,7 @@
 ECLIPSE Crew Management System
 Group 79 - Jenna Rivera and Kaelee Duong
 DML SQL Statements 
+* Citations: Referenced WHAT IS CRUD pdf from Canvas Modules (Week 6) *
 */
 
 --
@@ -173,5 +174,3 @@ WHERE dancerPracticeID = @dancerPracticeIDInput;
 -- Delete: delete a dancer from a practice
 DELETE FROM Dancer_Practices
 WHERE dancerPracticeID = @dancerPracticeIDInput;
-
-
