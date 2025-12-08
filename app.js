@@ -2,6 +2,9 @@
 ECLIPSE Crew Management System
 Group 79 - Jenna Rivera and Kaelee Duong
 Application file for CS340 Final Project
+
+Citations:
+- Structure and setup adopted from Exploration: Web Application Technology
 */
 
 
