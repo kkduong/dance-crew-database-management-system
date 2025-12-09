@@ -1,12 +1,12 @@
 /*
-ECLIPSE Crew Management System
-Group 79 - Jenna Rivera and Kaelee Duong
-Application file for CS340 Final Project
+    ECLIPSE Crew Management System
+    Group 79 - Jenna Rivera and Kaelee Duong
+    Application file for CS340 Final Project
 
-Citations:
-Date: 11/5/2025
-- Structure and setup adopted from Exploration: Web Application Technology
-- URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 
+    Citations:
+    Date: 11/5/2025
+    - Structure and setup adopted from Exploration: Web Application Technology
+    - URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-web-application-technology-2?module_item_id=25645131 
 */
 
 
