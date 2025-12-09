@@ -4,7 +4,7 @@ Group 79 - Jenna Rivera and Kaelee Duong
 DML SQL Statements 
 
 * Citations: Referenced WHAT IS CRUD pdf from Canvas Modules (Week 6) *
-* Date: 11/06/2025
+* Date: 11/05/2025
 * Source URL: https://canvas.oregonstate.edu/courses/2017561/files/112083386?module_item_id=25645130
 */
 
