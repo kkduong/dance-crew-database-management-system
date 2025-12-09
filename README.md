@@ -5,7 +5,7 @@
 
 ## **About This Program**
 The **Dance Crew Database Management System** is designed to help small dance crews efficiently manage their dancers, performances, and practice schedules.  
-It provides an organized way to track events, attendance, and essential crew information.
+It provides an organized way to track events, practices, and essential crew information.
 
 ---
 
