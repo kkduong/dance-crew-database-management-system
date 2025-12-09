@@ -2,7 +2,10 @@
 Reset Procedure and Delete Operation by Jenna Rivera and Kaelee Duong
 Group 79 Project Step 4 Draft
 CS340 Fall 2025
-* Citation: Adopted from PL/SQL part 2, Stored Procedures for CUD from Canvas Modules (Week 7) *
+
+* Citation: Code based on PL/SQL part 2, Stored Procedures for CUD from Canvas Modules (Week 7) *
+* Date: 11/20/2025
+* Source URL: https://canvas.oregonstate.edu/courses/2017561/pages/exploration-pl-slash-sql-part-2-stored-procedures-for-cud?module_item_id=25645141
 */
 
 
