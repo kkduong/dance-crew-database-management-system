@@ -5,7 +5,8 @@
 
     Citations:
     Date: 11/5/2025
-    - Copied from Activity 2: Connect webapp to database
+    Copied from Activity 2: Connect webapp to database
+    Source URL: https://canvas.oregonstate.edu/courses/2017561/assignments/10111722 
 */
 
 let mysql = require('mysql2')
