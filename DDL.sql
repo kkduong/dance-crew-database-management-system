@@ -2,7 +2,10 @@
 Schema DDL by Jenna Rivera and Kaelee Duong
 Group 79 Project Step 2 draft
 CS340 Fall 2025
-* Citations: Adopted from sp_moviedb.sql from CS340 Canvas files *
+
+* Citations: Code based on sp_moviedb.sql from CS340 Canvas files *
+* Date: 10/30/2025
+* Source URL: https://canvas.oregonstate.edu/courses/2017561/files/112083408?wrap=1
 */
 
 DROP PROCEDURE IF EXISTS sp_load_eclispedb;
